@@ -36,7 +36,7 @@ angular.module('app')
     if (window.location.hostname == "localhost") {
       newBaseUrl = "http://localhost:8000/api/";
     } else {
-      newBaseUrl = "https://omapi.kaizentech.io/api/";
+      newBaseUrl = "https://vettedapi.herokuapp.com/api/";
     }
     RestangularProvider.setBaseUrl(newBaseUrl);
     RestangularProvider.setRequestSuffix("/");
@@ -47,7 +47,7 @@ angular.module('app')
     if (window.location.hostname == "localhost") {
       newBaseUrl = "http://localhost:8000/api/";
     } else {
-      newBaseUrl = "https://omapi.kaizentech.io/api/";
+      newBaseUrl = "https://vettedapi.herokuapp.com/api/";
     }
     $authProvider.baseUrl = newBaseUrl;
     $authProvider.loginUrl = '/login/';

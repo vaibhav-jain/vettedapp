@@ -12,17 +12,17 @@ app.service('UserDetailsService',
       this.getUID = function () {
         return $localStorage._uid
       };
-      this.setObjID = function (object_id) {
-        $localStorage._uobjid = object_id
+      this.setSuperAdmin = function (is_super_admin) {
+        $localStorage._usuperadmin = is_super_admin
       };
-      this.getObjID = function () {
-        return $localStorage._uobjid
+      this.getSuperAdmin = function () {
+        return $localStorage._usuperadmin
       };
-      this.setRoleID = function (id) {
-        $localStorage._uroleid = id
+      this.setCompanyAdmin = function (is_company_admin) {
+        $localStorage._ucompanyadmin = is_company_admin
       };
-      this.getRoleID = function () {
-        return $localStorage._uroleid
+      this.getCompanyAdmin = function () {
+        return $localStorage._ucompanyadmin
       };
       this.setFirstName = function (firstName) {
         $localStorage._ufirstname = firstName
@@ -36,38 +36,26 @@ app.service('UserDetailsService',
       this.getLastName = function () {
         return $localStorage._ulastname
       };
-      this.setProfilePic = function (pic) {
-        $localStorage._uprofilepic = pic
-      };
-      this.getProfilePic = function () {
-        return $localStorage._uprofilepic
-      };
-      this.setRole = function (role) {
-        $localStorage._urole = role
-      };
-      this.getRole = function () {
-        return $localStorage._urole
-      };
       this.setEmail = function (email) {
         $localStorage._uemail = email
       };
       this.getEmail = function () {
         return $localStorage._uemail
       };
-      this.setDetails = function (user) {
-        return $localStorage._u_details = user
+      this.setCompanyID = function (company) {
+        $localStorage._ucompanyid = company
       };
-      this.getDetails = function () {
-        return $localStorage._u_details
+      this.getCompanyID = function () {
+        return $localStorage._ucompanyid
       };
       this.clear = function () {
         delete $localStorage._uid;
         delete $localStorage._ufirstname;
         delete $localStorage._ulastname;
-        delete $localStorage._uprofilepic;
-        delete $localStorage._urole;
+        delete $localStorage._usuperadmin;
+        delete $localStorage._ucompanyadmin;
+        delete $localStorage._ucompanyid;
         delete $localStorage._uemail;
-        delete $localStorage._u_details;
       }
     }
   ]

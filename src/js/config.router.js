@@ -31,25 +31,36 @@ angular.module('app')
       }
     ]
   )
+  .config(function ($httpProvider) {
+    $httpProvider.interceptors.push('HTTP403Interceptor');
+  })
   .config(
-    [          '$stateProvider', '$urlRouterProvider', 'JQ_CONFIG',
-      function ($stateProvider,   $urlRouterProvider, JQ_CONFIG) {
-        $urlRouterProvider
-          .otherwise('/app/dashboard-v1');
+    [          '$stateProvider', '$urlRouterProvider',
+      function ($stateProvider,   $urlRouterProvider) {
         $stateProvider
           .state('app', {
             abstract: true,
             url: '/app',
-            templateUrl: 'tpl/app.html'
+            templateUrl: 'tpl/app.html',
+            data: {loginRequired: true},
+            resolve:{
+              deps: ['$ocLazyLoad',
+                function ($ocLazyLoad) {
+                  return $ocLazyLoad.load([
+                    'js/controllers/header.Controller.js'
+                  ]);
+                }
+              ]
+            }
           })
           .state('app.dashboard', {
             url: '/dashboard',
-            templateUrl: 'tpl/app_dashboard_v1.html',
+            templateUrl: 'tpl/dashboard.html',
             data: {loginRequired: true},
             resolve: {
               deps: ['$ocLazyLoad',
                 function( $ocLazyLoad ){
-                  return $ocLazyLoad.load(['js/controllers/chart.js']);
+                  return $ocLazyLoad.load(['js/controllers/dashboard.Controllers.js']);
                 }]
             }
           })
@@ -90,16 +101,14 @@ angular.module('app')
           })
           .state('app.page.profile', {
             url: '/profile',
-            templateUrl: 'tpl/page_profile.html'
-          })
-          .state('app.page.post', {
-            url: '/post',
-            templateUrl: 'tpl/page_post.html'
-          })
-          // others
-          .state('lockme', {
-            url: '/lockme',
-            templateUrl: 'tpl/page_lockme.html'
+            templateUrl: 'tpl/page_profile.html',
+            data: {loginRequired: true},
+            resolve: {
+              deps: ['uiLoad',
+                function( uiLoad ){
+                  return uiLoad.load( ['js/controllers/profile.Controller.js'] );
+                }]
+            }
           })
           .state('access', {
             url: '/access',
@@ -112,50 +121,41 @@ angular.module('app')
             resolve: {
               deps: ['uiLoad',
                 function( uiLoad ){
-                  return uiLoad.load( ['js/controllers/signin.js'] );
+                  return uiLoad.load( ['js/controllers/auth.Controllers.js'] );
                 }]
             }
           })
-          .state('access.signup', {
-            url: '/signup',
-            templateUrl: 'tpl/page_signup.html',
-            resolve: {
-              deps: ['uiLoad',
-                function( uiLoad ){
-                  return uiLoad.load( ['js/controllers/signup.js'] );
-                }]
-            }
-          })
-          .state('access.forgotpwd', {
-            url: '/forgotpwd',
-            templateUrl: 'tpl/page_forgotpwd.html'
-          })
-          .state('access.404', {
-            url: '/404',
-            templateUrl: 'tpl/page_404.html'
-          })
-          .state('layout', {
-            abstract: true,
-            url: '/layout',
-            templateUrl: 'tpl/layout.html'
-          })
-          .state('layout.fullwidth', {
-            url: '/fullwidth',
-            views: {
-              '': {
-                templateUrl: 'tpl/layout_fullwidth.html'
-              },
-              'footer': {
-                templateUrl: 'tpl/layout_footer_fullwidth.html'
+          .state(
+            'access.logout', {
+              url: '/logout/',
+              template: null,
+              data: {loginRequired: true},
+              controller: 'LogoutController',
+              resolve: {
+                deps: ['$ocLazyLoad',
+                  function( $ocLazyLoad){
+                    return $ocLazyLoad.load('js/controllers/auth.Controllers.js');
+                  }
+                ]
               }
-            },
-            resolve: {
-              deps: ['uiLoad',
-                function( uiLoad ){
-                  return uiLoad.load( ['js/controllers/vectormap.js'] );
-                }]
             }
-          })
+          )
+          .state(
+            'access.verify-email', {
+              url: '/verify-email/:key',
+              template: null,
+              data: {skipRequired: true},
+              controller: 'VerifyEmailController',
+              resolve: {
+                deps: ['$ocLazyLoad',
+                  function( $ocLazyLoad){
+                    return $ocLazyLoad.load('js/controllers/auth.Controllers.js');
+                  }
+                ]
+              }
+            }
+          );
+        $urlRouterProvider.otherwise('/access/signin');
       }
     ]
   );
