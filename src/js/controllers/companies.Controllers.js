@@ -54,7 +54,6 @@ app.controller('CompaniesListController',
         }
       );
     };
-
     /** Delete Company modal function */
     $scope.deleteCompany = function (company, index) {
       var deleteCompanyModalInstance = $modal.open({

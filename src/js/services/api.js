@@ -1,8 +1,5 @@
 /**
  * Contains API Services
- * Created by Vaibhav Jain on 22/10/16.
- * Website: https://www.kaizentechlabs.in
- * kaizentech cloud solutions private limited. All Rights Reserved.
  */
 
 'use strict';
@@ -67,5 +64,12 @@ app.service('CompaniesService',
 app.service('EmployeesService',
   function (EmployeesAPI) {
     return EmployeesAPI
+  }
+);
+
+/* CountWidget Service */
+app.service('CountWidgetService',
+  function (CountWidgetAPI) {
+    return CountWidgetAPI
   }
 );

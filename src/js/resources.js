@@ -1,8 +1,5 @@
 /**
  * REST API Resources
- * Created by Vaibhav Jain on 22/10/16.
- * Website: https://www.kaizentechlabs.in
- * kaizentech cloud solutions private limited. All Rights Reserved.
  */
 
 'use strict';
@@ -38,7 +35,7 @@ app.factory('SignupAPI',
 app.factory('VerifyEmailAPI',
   ['Restangular',
     function (Restangular) {
-      return Restangular.service('verify-email');
+      return Restangular.service('/signup/verify-email');
     }
   ]
 );
@@ -75,6 +72,15 @@ app.factory('EmployeesAPI',
   ['Restangular',
     function (Restangular) {
       return Restangular.service('employees');
+    }
+  ]
+);
+
+/* CountWidget API */
+app.factory('CountWidgetAPI',
+  ['Restangular',
+    function (Restangular) {
+      return Restangular.service('count-widget');
     }
   ]
 );

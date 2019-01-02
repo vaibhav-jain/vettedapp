@@ -16,7 +16,7 @@ angular.module('app')
                           '../bower_components/flot.orderbars/js/jquery.flot.orderBars.js',
                           '../bower_components/flot-spline/js/jquery.flot.spline.js'],
       moment:         [   '../bower_components/moment/moment.js'],
-      screenfull:     [   '../bower_components/screenfull/dist/screenfull.min.js'],
+      screenfull:     [   'https://cdnjs.cloudflare.com/ajax/libs/screenfull.js/1.2.0/screenfull.min.js'],
       slimScroll:     [   '../bower_components/slimscroll/jquery.slimscroll.min.js'],
       sortable:       [   '../bower_components/html5sortable/jquery.sortable.js'],
       nestable:       [   '../bower_components/nestable/jquery.nestable.js',
@@ -172,7 +172,7 @@ angular.module('app')
               {
                   name: 'smart-table',
                   files: [
-                      '../bower_components/angular-smart-table/dist/smart-table.min.js'
+                      'https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/1.4.9/smart-table.min.js'
                   ]
               }
           ]

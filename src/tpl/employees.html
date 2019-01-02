@@ -2,15 +2,20 @@
   <h1 class="m-n font-thin h3">Employees</h1>
 </div>
 <div class="wrapper-md" ng-controller="EmployeesListController">
+  <toaster-container toaster-options="{'position-class': 'toast-top-right', 'close-button':true}"></toaster-container>
   <div class="panel panel-default">
+    <div class="panel-heading text-right">
+      <button type="button" class="btn btn-primary" ng-click="addEmployee()">Add Employee</button>
+    </div>
     <table st-table="displayedCollection" st-safe-src="employees" class="table table-striped table-bordered">
       <thead>
       <tr>
-        <th colspan="4">
+        <th colspan="6">
           <input st-search placeholder="global search" class="input-sm form-control" type="search"/>
         </th>
       </tr>
       <tr>
+        <th>SNO.</th>
         <th st-sort="profile.fisrt_name">First Name</th>
         <th st-sort="profile.last_name">Last Name</th>
         <th st-sort="profile.username">Username</th>
@@ -20,14 +25,15 @@
       </thead>
       <tbody>
       <tr ng-repeat="row in displayedCollection">
+        <td>{{$index+1}}</td>
         <td>{{row.profile.first_name}}</td>
         <td>{{row.profile.last_name}}</td>
         <td>{{row.profile.username}}</td>
         <td>{{row.profile.email}}</td>
         <td>
           <div class="row text-center">
-            <button class="btn m-b-xs w-xs btn-info" data-ng-click="editCompany(row, $index)">Edit</button>
-            <button class="btn m-b-xs w-xs btn-danger" data-ng-click="deleteCompany(row, $index)">Delete</button>
+            <button class="btn m-b-xs w-xs btn-info" data-ng-click="editEmployee(row, $index)">Edit</button>
+            <button class="btn m-b-xs w-xs btn-danger" data-ng-click="deleteEmployee(row, $index)">Delete</button>
           </div>
         </td>
       </tr>
@@ -61,6 +67,26 @@
             <input type="email" class="form-control" placeholder="Email" data-ng-model="employee.email" required>
           </div>
         </div>
+        <div class="form-group pull-in clearfix">
+          <div class="col-xs-6">
+            <label>Password</label>
+            <input type="password" class="form-control" placeholder="Enter Password" data-ng-model="employee.password1" required>
+          </div>
+          <div class="col-xs-6">
+            <label>Confirm Password</label>
+            <input type="password" placeholder="Confirm Password" name="password2" class="form-control"
+                   data-ng-model="employee.password2" data-ng-minlength="6" data-ng-maxlength="50"
+                   ui-validate=" '$value==employee.password1' " ui-validate-watch=" 'employee.password1' " required>
+            <span data-ng-show='addEmployeeForm.password2.$error.validator'>Passwords do not match!</span>
+          </div>
+        </div>
+        <div class="form-group clearfix">
+          <div class="checkbox">
+            <label class="i-checks">
+              <input type="checkbox" data-ng-model="employee.is_admin"><i></i>Is Admin
+            </label>
+          </div>
+        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button>
           <button type="submit" class="btn btn-success" data-ng-disabled='addEmployeeForm.$invalid'
@@ -72,7 +98,7 @@
     </div>
   </script>
   <!-- Edit Company modal -->
-  <script type="text/ng-template" id="edit_employeey">
+  <script type="text/ng-template" id="edit_employee">
     <div class="modal-header">
       <h3 class="modal-title">Edit Employee</h3>
     </div>
@@ -81,21 +107,28 @@
         <div class="form-group pull-in clearfix">
           <div class="col-xs-6">
             <label>First Name</label>
-            <input type="text" class="form-control" placeholder="First Name" data-ng-model="employee.first_name" required>
+            <input type="text" class="form-control" placeholder="First Name" data-ng-model="employee.profile.first_name" required>
           </div>
           <div class="col-xs-6">
             <label>Last Name</label>
-            <input type="text" class="form-control" placeholder="Last Name" data-ng-model="employee.last_name" required>
+            <input type="text" class="form-control" placeholder="Last Name" data-ng-model="employee.profile.last_name" required>
           </div>
         </div>
         <div class="form-group pull-in clearfix">
           <div class="col-xs-6">
             <label>Username</label>
-            <input type="text" class="form-control" placeholder="Username" data-ng-model="employee.username" required>
+            <input type="text" class="form-control" placeholder="Username" data-ng-model="employee.profile.username" required>
           </div>
           <div class="col-xs-6">
             <label>Email</label>
-            <input type="email" class="form-control" placeholder="Email" data-ng-model="employee.email" required>
+            <input type="email" class="form-control" placeholder="Email" data-ng-model="employee.profile.email" required>
+          </div>
+        </div>
+        <div class="form-group clearfix">
+          <div class="checkbox">
+            <label class="i-checks">
+              <input type="checkbox" data-ng-model="employee.is_admin"><i></i>Is Admin
+            </label>
           </div>
         </div>
         <div class="modal-footer">
@@ -111,12 +144,12 @@
   <!-- Delete Employee modal -->
   <script type="text/ng-template" id="delete_employee">
     <div class="modal-header">
-      <h3 class="modal-title">Delete Employee {{employee.first_name}} {{employee.last_name}}?</h3>
+      <h3 class="modal-title">Delete Employee {{employee.profile.first_name}} {{employee.profile.last_name}}?</h3>
     </div>
     <div class="modal-body">
       <form name="deleteEmployeeForm" class="form-validation" novalidate>
         <div class="form-group clearfix">
-          Are you sure you want to delete this class and its related content ?
+          Are you sure you want to delete this Employee and its related content ?
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" ng-click="cancel()">No</button>
